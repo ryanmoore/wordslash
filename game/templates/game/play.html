@@ -2,6 +2,18 @@
 
 {% block content %}
 <h1>Play</h1>
+<div class="row"> 
+    <div class="col-xs-8 col-xs-offset-2 col-md-4">
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="60" style="width: 100%;"
+                id="timer-bar">
+                <span class="sr-only">60s</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
 {% for hand in hands %}
     <div class="row">
         <div class="col-xs-8 col-xs-offset-2 col-md-4">
@@ -14,3 +26,24 @@
     </div>
 {% endfor %}
 {% endblock content %}
+
+{% block script_block %}
+<script>
+var updateInterval;
+var startTime = Date.now();
+function updateProgressBar() {
+    var newLength = 60 - (Date.now() - startTime)/1000;
+    if(newLength <= 0) {
+        clearInterval(updateInterval);
+        newLength = 0;
+    }
+    var bar = document.getElementById("timer-bar");
+    var percent = Math.round(100*newLength/60);
+    bar.setAttribute("style", "width: " + percent.toString() + "%;");
+}
+
+function onLoadFunction() {
+    updateInterval = setInterval(updateProgressBar, 1000);   
+}
+</script>
+{% endblock %}
