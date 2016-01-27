@@ -22,6 +22,14 @@
 <body>
 <div class="container">
 {% block content %}{% endblock content %}
+<nav>
+    <ul class="pager">
+        {% if answer_button %}
+        <li><a href="{% url 'game:answer' num_hands seed %}">Answers</a></li>
+        {% endif %}
+        <li><a href="{% url 'game:play' num_hands next_seed %}">New Game</a></li>
+    </ul>
+</nav>
 </div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

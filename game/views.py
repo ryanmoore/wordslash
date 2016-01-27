@@ -7,12 +7,19 @@ import re
 
 def game(request, num_hands, seed):
     hands = gen_triplets_from_seed(seed, int(num_hands))
-    context = {'hands' : hands}
+    context = {'hands' : hands,
+                'seed' : seed,
+                'num_hands': num_hands,
+                'next_seed': new_seed(),
+                'answer_button': True}
     return render(request, 'game/play.html', context)
 
 def answer(request, num_hands, seed):
     hands = gen_triplets_from_seed(seed, int(num_hands))
-    context = {'hands': [(hand, find_shortest_words(hand, 10)) for hand in hands]}
+    context = {'hands': [(hand, find_shortest_words(hand, 10)) for hand in hands],
+            'seed': seed,
+            'num_hands': num_hands,
+            'next_seed': new_seed()}
     return render(request, 'game/answer.html', context)
 
 def gen_triplets_from_seed(seed, count):
@@ -39,3 +46,8 @@ def find_shortest_words(hand, limit):
     matches = [elt for elt in matches if len(elt) > 3 and elt.islower()]
     matches.sort(key=lambda x: len(x))
     return list(itertools.islice(matches, 0, limit))
+
+def new_seed(length=64):
+    random.seed()
+    characters = string.ascii_letters + string.digits
+    return ''.join(random.choice(characters) for _ in range(length))

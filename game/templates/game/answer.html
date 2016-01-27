@@ -15,9 +15,9 @@
     <div class="row">
         <div class="col-xs-8 col-xs-offset-2 col-md-4">
             {% if not answers %}
-                <p>No words found.</p>
+                <p class="bg-danger">No words found.</p>
             {% else %}
-                <p>
+                <p class="bg-info">
                 {% for answer in answers %}
                 {{ answer }} 
                 {% endfor %}
