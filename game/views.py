@@ -5,12 +5,17 @@ import string
 import itertools
 import re
 
-def game(request, num_hands, seed):
+def old_game(request, num_hands, seed):
     hands = gen_triplets_from_seed(seed, int(num_hands))
     text = ''
     for hand in hands:
         text += '{}<br>'.format(''.join(hand))
     return HttpResponse('Hands in play:<br>{}'.format(text))
+
+def game(request, num_hands, seed):
+    hands = gen_triplets_from_seed(seed, int(num_hands))
+    context = {'hands' : hands}
+    return render(request, 'game/play.html', context)
 
 def answer(request, num_hands, seed):
     hands = gen_triplets_from_seed(seed, int(num_hands))
