@@ -32,13 +32,20 @@
 var updateInterval;
 var startTime = Date.now();
 function updateProgressBar() {
-    var newLength = 60 - (Date.now() - startTime)/1000;
+    var totalTime = 60;
+    var newLength = totalTime - (Date.now() - startTime)/1000;
     if(newLength <= 0) {
         clearInterval(updateInterval);
         newLength = 0;
     }
     var bar = document.getElementById("timer-bar");
-    var percent = Math.round(100*newLength/60);
+    var percent = Math.round(100*newLength/totalTime);
+    if(percent == 0) {
+        percent = 100;
+        bar.setAttribute("class", "progress-bar progress-bar-danger");
+    } else if(percent < 25) {
+        bar.setAttribute("class", "progress-bar progress-bar-warning");
+    }
     bar.setAttribute("style", "width: " + percent.toString() + "%;");
 }
 
