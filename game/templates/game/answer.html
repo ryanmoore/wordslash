@@ -1,0 +1,29 @@
+{% extends "game/base.html" %}
+
+{% block content %}
+<h1>Answers</h1>
+{% for hand, answers in hands %}
+    <div class="row">
+        <div class="col-xs-8 col-xs-offset-2 col-md-4">
+            <div class="btn-group btn-group-justified">
+                {% for letter in hand %}
+                        <div class="btn btn-default">{{ letter }}</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-8 col-xs-offset-2 col-md-4">
+            {% if not answers %}
+                <p>No words found.</p>
+            {% else %}
+                <p>
+                {% for answer in answers %}
+                {{ answer }} 
+                {% endfor %}
+                </p>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}
+{% endblock content %}

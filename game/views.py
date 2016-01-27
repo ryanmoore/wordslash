@@ -5,13 +5,6 @@ import string
 import itertools
 import re
 
-def old_game(request, num_hands, seed):
-    hands = gen_triplets_from_seed(seed, int(num_hands))
-    text = ''
-    for hand in hands:
-        text += '{}<br>'.format(''.join(hand))
-    return HttpResponse('Hands in play:<br>{}'.format(text))
-
 def game(request, num_hands, seed):
     hands = gen_triplets_from_seed(seed, int(num_hands))
     context = {'hands' : hands}
@@ -19,10 +12,8 @@ def game(request, num_hands, seed):
 
 def answer(request, num_hands, seed):
     hands = gen_triplets_from_seed(seed, int(num_hands))
-    text = ''
-    for hand in hands:
-        text += '{}: {}<br>'.format(''.join(hand), find_shortest_words(hand, 10))
-    return HttpResponse('{}'.format(text))
+    context = {'hands': [(hand, find_shortest_words(hand, 10)) for hand in hands]}
+    return render(request, 'game/answer.html', context)
 
 def gen_triplets_from_seed(seed, count):
     random.seed(seed)
